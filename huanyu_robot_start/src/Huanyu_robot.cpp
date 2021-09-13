@@ -27,8 +27,8 @@ Huanyu_start_object::Huanyu_start_object()
 	ros::NodeHandle nh_private("~");
 	nh_private.param<std::string>("usart_port", this->usart_port, "/dev/huanyu_base"); 
    	nh_private.param<int>("baud_data", this->baud_data, 115200); 
-   	nh_private.param<std::string>("robot_frame_id", this->robot_frame_id, "base_link");
-	nh_private.param<std::string>("smoother_cmd_vel", this->smoother_cmd_vel, "/smoother_cmd_vel"); 
+   	nh_private.param<std::string>("robot_frame_id", this->robot_frame_id, "huanyu/base_link");
+	nh_private.param<std::string>("smoother_cmd_vel", this->smoother_cmd_vel, "smoother_cmd_vel"); 
 	nh_private.param<bool>("publish_odom", this->publish_odom, false); 
 
 	nh_private.param<float>("filter_Vx_match", this->filter_Vx_match, 1.0f); 
@@ -36,12 +36,12 @@ Huanyu_start_object::Huanyu_start_object()
 
 	/* Create a boot node for the underlying driver layer of the robot base_controller */
 	this->cmd_vel_sub = n.subscribe(smoother_cmd_vel, 100, &Huanyu_start_object::cmd_velCallback, this);
-	this->amcl_sub = n.subscribe("/amcl_pose", 100, &Huanyu_start_object::cmd_AmclvelCallback, this);
+	this->amcl_sub = n.subscribe("amcl_pose", 100, &Huanyu_start_object::cmd_AmclvelCallback, this);
 
 	this->odom_pub = n.advertise<nav_msgs::Odometry>("odom", 50);
-	this->imu_pub  = n.advertise<sensor_msgs::Imu>("/mobile_base/sensors/imu_data", 20);
-    this->imu_pub_raw  = n.advertise<sensor_msgs::Imu>("/mobile_base/sensors/imu_data_raw", 20);
-    this->power_pub = n.advertise<std_msgs::Float32>("/robot/PowerValtage", 20);
+	this->imu_pub  = n.advertise<sensor_msgs::Imu>("mobile_base/sensors/imu_data", 20);
+    this->imu_pub_raw  = n.advertise<sensor_msgs::Imu>("mobile_base/sensors/imu_data_raw", 20);
+    this->power_pub = n.advertise<std_msgs::Float32>("robot/PowerValtage", 20);
 
 	/**open seril device**/
 	try{
@@ -119,7 +119,7 @@ void Huanyu_start_object::PublisherOdom()
 		//first, we'll publish the transform over tf
 	    geometry_msgs::TransformStamped odom_trans;
 	    odom_trans.header.stamp = ros::Time::now();;
-	    odom_trans.header.frame_id = "odom";
+	    odom_trans.header.frame_id = "huanyu/odom";
 	    odom_trans.child_frame_id = this->robot_frame_id;
 
 	    odom_trans.transform.translation.x = x;
@@ -134,7 +134,7 @@ void Huanyu_start_object::PublisherOdom()
     //next, we'll publish the odometry message over ROS
     nav_msgs::Odometry odom;
     odom.header.stamp = ros::Time::now();;
-    odom.header.frame_id = "odom";
+    odom.header.frame_id = "huanyu/odom";
 
     //set the position
     odom.pose.pose.position.x = x;
@@ -216,7 +216,7 @@ void Huanyu_start_object::publisherImuSensorRaw()
 	sensor_msgs::Imu ImuSensorRaw;
 
 	ImuSensorRaw.header.stamp = ros::Time::now(); 
-	ImuSensorRaw.header.frame_id = "gyro_link"; 
+	ImuSensorRaw.header.frame_id = "huanyu/gyro_link"; 
 
 	ImuSensorRaw.orientation.x = 0; 
 	ImuSensorRaw.orientation.y = 0; 
@@ -246,7 +246,7 @@ void Huanyu_start_object::publisherImuSensor()
 	sensor_msgs::Imu ImuSensor;
 
 	ImuSensor.header.stamp = ros::Time::now(); 
-	ImuSensor.header.frame_id = "gyro_link"; 
+	ImuSensor.header.frame_id = "huanyu/gyro_link"; 
 
 	ImuSensor.orientation.x = 0.0; 
 	ImuSensor.orientation.y = 0.0; 

@@ -85,8 +85,8 @@ Costmap2DROS::Costmap2DROS(const std::string& name, tf2_ros::Buffer& tf) :
   ros::NodeHandle g_nh;
 
   // get global and robot base frame names
-  private_nh.param("global_frame", global_frame_, std::string("map"));
-  private_nh.param("robot_base_frame", robot_base_frame_, std::string("base_link"));
+  private_nh.param("global_frame", global_frame_, std::string("huanyu/map"));
+  private_nh.param("robot_base_frame", robot_base_frame_, std::string("huanyu/base_link"));
 
   ros::Time last_error = ros::Time::now();
   std::string tf_error;

@@ -433,9 +433,9 @@ AmclNode::AmclNode() :
 
   private_nh_.param("update_min_d", d_thresh_, 0.2);
   private_nh_.param("update_min_a", a_thresh_, M_PI/6.0);
-  private_nh_.param("odom_frame_id", odom_frame_id_, std::string("odom"));
-  private_nh_.param("base_frame_id", base_frame_id_, std::string("base_link"));
-  private_nh_.param("global_frame_id", global_frame_id_, std::string("map"));
+  private_nh_.param("odom_frame_id", odom_frame_id_, std::string("huanyu/odom"));
+  private_nh_.param("base_frame_id", base_frame_id_, std::string("huanyu/base_link"));
+  private_nh_.param("global_frame_id", global_frame_id_, std::string("huanyu/map"));
   private_nh_.param("resample_interval", resample_interval_, 2);
   private_nh_.param("selective_resampling", selective_resampling_, false);
   double tmp_tol;

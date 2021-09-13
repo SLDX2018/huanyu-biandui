@@ -172,8 +172,8 @@ int main(int argc, char** argv)
   // to become available.
   geometry_msgs::TransformStamped base_rel_map;
   base_rel_map.transform = tf2::toMsg(tf2::Transform::getIdentity());
-  base_rel_map.child_frame_id = "base_link";
-  base_rel_map.header.frame_id = "map";
+  base_rel_map.child_frame_id = "huanyu/base_link";
+  base_rel_map.header.frame_id = "huanyu/map";
   base_rel_map.header.stamp = ros::Time::now();
   tf_->setTransform( base_rel_map, "footprint_tests" );
 
